@@ -1,5 +1,5 @@
 {
-  "name": "WorldWideBadges",
+  "name": "Twitter Extra!",
   "manifest_version": 2,
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkV60wSvdvzjkozB8EB5wCJ+sEZK5Ip83D54QHBoodUZNafRmt4rTEgqDlJqYePQpzEfR9uPQ3jRLWT0LvnC4dimmmu4Cq8XzT8/85GjntsWTJHt8ejsSSUNpIhoNpzUqdlPHwHQtfmi7l2M9FXHEIEaS3Z/SOaHR1i9PZ7MFgwJxkDtbRpv++c1tvNgOugjCt6chIF3dmeFZNPqdACXxrI2voSiaattBjaFN0XrVxutQ/IHSP7GfiZJpapSbszdtDTReHVOvn/81NdaKU5s/vK5cEtKg6OTQjxA0gB22xilf6nkfHWfcZHPf/0tkjfzB1Y1ev6XjCDaHM1hBw0TWFwIDAQAB",
   "version": "1.1",
@@ -15,7 +15,11 @@
     "https://twitter.com/*"
   ],
   "content_scripts": [ {
-    "js": [ "jquery.js", "background.js" ],
+    "js": [ "jquery.js", "src/init.js"],
     "matches": [ "https://twitter.com/*"]
-  }]
+  }],
+  "web_accessible_resources": [
+    "src/*",
+    "jquery.js"
+  ]
 }
