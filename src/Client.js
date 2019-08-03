@@ -36,7 +36,7 @@ export default class Client {
                     extraButton.on("click", (e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        that.showContextMenu(111111)
+                        that.muliLike()
                     });
                     $(extraButton).insertAfter(caret)
                 }
@@ -45,7 +45,15 @@ export default class Client {
         });
     }
 
-    showContextMenu(tweetId) {
-        alert(tweetId)
+    muliLike() {
+        var tweets = $('div[data-testid="tweet"]');
+        for(var i=0;i<tweets.length;i++){
+           var tweet = $('div[data-testid="tweet"]')[i];
+           var screenName = $(tweet).find(".css-901oao")[0];
+            if(screenName.innerText=="omri"){
+             $(tweet).find('div[data-testid="like"]').click();
+            }
+            
+           }
     }
 }
