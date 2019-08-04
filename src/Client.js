@@ -18,6 +18,7 @@ export default class Client {
             that.bindTweets()
         }, 2000)
     }
+
     bindTweets() {
         let that = this;
         $(function() {
@@ -29,8 +30,9 @@ export default class Client {
 
                 } else {
                     $(caret).attr("data-extra", true)
-                    let extraButton = $("<Button>Extra</Button>");
+                    let extraButton = $("<Button>Mega Like</Button>");
                     extraButton.css('height', '20px');
+                    extraButton.css('width', '80px');
                     extraButton.css('right', '20px');
                     extraButton.css('position', 'absolute');
                     extraButton.on("click", (e) => {
@@ -46,14 +48,14 @@ export default class Client {
     }
 
     muliLike() {
-        var tweets = $('div[data-testid="tweet"]');
-        for(var i=0;i<tweets.length;i++){
-           var tweet = $('div[data-testid="tweet"]')[i];
-           var screenName = $(tweet).find(".css-901oao")[0];
-            if(screenName.innerText=="omri"){
-             $(tweet).find('div[data-testid="like"]').click();
-            }
-            
-           }
+        let tweets = $('div[data-testid="tweet"], article[data-testid="tweetDetail"]');
+
+        tweets.map((index, tweet) => {
+            $($(tweet).find('div[data-testid="like"]')).trigger("click")
+        })
+
+
+
+
     }
 }
