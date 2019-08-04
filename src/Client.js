@@ -69,7 +69,7 @@ export default class Client {
         likeButton.on("click", (e) => {
             e.preventDefault();
             e.stopPropagation();
-            that.muliLike()
+            that.multiLike()
         });
         return likeButton
     }
@@ -96,7 +96,7 @@ export default class Client {
         })
     }
 
-    muliLike() {h
+    multiLike() {
         let tweets = $('div[data-testid="tweet"], article[data-testid="tweetDetail"]');
 
         tweets.map((index, tweet) => {
