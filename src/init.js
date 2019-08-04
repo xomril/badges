@@ -11,6 +11,5 @@ $(document).ready(function() {
     script.setAttribute("type", "module");
     script.setAttribute("src", chrome.extension.getURL('src/main.js'));
     head.insertBefore(script, head.lastChild);
-    console.log("Added Twitter extra");
 });
 

@@ -1,11 +1,12 @@
+import ActionManager from "./ActionManager.js";
 
 export default class Client {
     constructor () {
         let that = this;
-        this.likeButtons = [];
+        this.carets = [];
 
         $(document).ready(() => {
-            console.log("Loading tweets")
+            console.log("Loading tweets");
             that.runLoader()
         });
 
@@ -18,42 +19,88 @@ export default class Client {
             that.bindTweets()
         }, 2000)
     }
+
     bindTweets() {
         let that = this;
         $(function() {
 
             this.carets = $("[data-testid='caret']");
+            console.log("processing")
             $.each(this.carets, (index, caret) => {
 
                 if ($(caret).data("extra")) {
 
                 } else {
                     $(caret).attr("data-extra", true)
-                    let extraButton = $("<Button>Extra</Button>");
-                    extraButton.css('height', '20px');
-                    extraButton.css('right', '20px');
-                    extraButton.css('position', 'absolute');
-                    extraButton.on("click", (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        that.muliLike()
-                    });
-                    $(extraButton).insertAfter(caret)
+
+                    let likeButton = that.createMultiLikeButton()
+                    let blockButton = that.createBlockButton()
+
+                    $(likeButton).insertAfter(caret)
+                    $(blockButton).insertAfter(caret)
                 }
 
             })
         });
     }
 
-    muliLike() {
-        var tweets = $('div[data-testid="tweet"]');
-        for(var i=0;i<tweets.length;i++){
-           var tweet = $('div[data-testid="tweet"]')[i];
-           var screenName = $(tweet).find(".css-901oao")[0];
-            if(screenName.innerText=="omri"){
-             $(tweet).find('div[data-testid="like"]').click();
-            }
-            
-           }
+    createBlockButton() {
+        let that = this
+        let blockButton = $("<Button>Block All</Button>");
+        blockButton.css('height', '20px');
+        blockButton.css('width', '80px');
+        blockButton.css('right', '110px');
+        blockButton.css('position', 'absolute');
+        blockButton.on("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            that.multiBlock()
+        });
+
+        return blockButton
+    }
+    createMultiLikeButton() {
+        let that = this
+        let likeButton = $("<Button>Mega Like</Button>");
+        likeButton.css('height', '20px');
+        likeButton.css('width', '80px');
+        likeButton.css('right', '20px');
+        likeButton.css('position', 'absolute');
+        likeButton.on("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            that.muliLike()
+        });
+        return likeButton
+    }
+
+    multiBlock() {
+        let visibleInterval = null
+
+        let tweets = $('div[data-testid="tweet"], article[data-testid="tweetDetail"]').reverse();
+
+        tweets.map((index, tweet) => {
+
+            $($(tweet).find('div[data-testid="caret"]')).trigger("click");
+            visibleInterval = setInterval(() => {
+
+                if ($("div[role='menu']").length > 0) {
+                    $($("div[role='menuitem']:contains('Block')")[0]).trigger("click")
+                    $('[data-testid="confirmationSheetConfirm"]').trigger("click");
+                    clearInterval(visibleInterval)
+                }
+
+            },20)
+
+
+        })
+    }
+
+    muliLike() {h
+        let tweets = $('div[data-testid="tweet"], article[data-testid="tweetDetail"]');
+
+        tweets.map((index, tweet) => {
+            $($(tweet).find('div[data-testid="like"]')).trigger("click")
+        })
     }
 }
