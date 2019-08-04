@@ -32,33 +32,75 @@ export default class Client {
 
                 } else {
                     $(caret).attr("data-extra", true)
-                    let extraButton = $("<Button>Mega Like</Button>");
-                    extraButton.css('height', '20px');
-                    extraButton.css('width', '80px');
-                    extraButton.css('right', '20px');
-                    extraButton.css('position', 'absolute');
-                    extraButton.on("click", (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        that.muliLike()
-                    });
 
-                    $(extraButton).insertAfter(caret)
+                    let likeButton = that.createMultiLikeButton()
+                    let blockButton = that.createBlockButton()
+
+                    $(likeButton).insertAfter(caret)
+                    $(blockButton).insertAfter(caret)
                 }
 
             })
         });
     }
 
-    muliLike() {
+    createBlockButton() {
+        let that = this
+        let blockButton = $("<Button>Block All</Button>");
+        blockButton.css('height', '20px');
+        blockButton.css('width', '80px');
+        blockButton.css('right', '110px');
+        blockButton.css('position', 'absolute');
+        blockButton.on("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            that.multiBlock()
+        });
+
+        return blockButton
+    }
+    createMultiLikeButton() {
+        let that = this
+        let likeButton = $("<Button>Mega Like</Button>");
+        likeButton.css('height', '20px');
+        likeButton.css('width', '80px');
+        likeButton.css('right', '20px');
+        likeButton.css('position', 'absolute');
+        likeButton.on("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            that.muliLike()
+        });
+        return likeButton
+    }
+
+    multiBlock() {
+        let visibleInterval = null
+
+        let tweets = $('div[data-testid="tweet"], article[data-testid="tweetDetail"]').reverse();
+
+        tweets.map((index, tweet) => {
+
+            $($(tweet).find('div[data-testid="caret"]')).trigger("click");
+            visibleInterval = setInterval(() => {
+
+                if ($("div[role='menu']").length > 0) {
+                    $($("div[role='menuitem']:contains('Block')")[0]).trigger("click")
+                    $('[data-testid="confirmationSheetConfirm"]').trigger("click");
+                    clearInterval(visibleInterval)
+                }
+
+            },20)
+
+
+        })
+    }
+
+    muliLike() {h
         let tweets = $('div[data-testid="tweet"], article[data-testid="tweetDetail"]');
 
         tweets.map((index, tweet) => {
             $($(tweet).find('div[data-testid="like"]')).trigger("click")
         })
-
-
-
-
     }
 }
