@@ -1,11 +1,12 @@
+import ActionManager from "./ActionManager.js";
 
 export default class Client {
     constructor () {
         let that = this;
-        this.likeButtons = [];
+        this.carets = [];
 
         $(document).ready(() => {
-            console.log("Loading tweets")
+            console.log("Loading tweets");
             that.runLoader()
         });
 
@@ -23,6 +24,7 @@ export default class Client {
         $(function() {
 
             this.carets = $("[data-testid='caret']");
+            console.log("processing")
             $.each(this.carets, (index, caret) => {
 
                 if ($(caret).data("extra")) {
@@ -36,8 +38,16 @@ export default class Client {
                     extraButton.on("click", (e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        that.showContextMenu(111111)
+                        chrome.runtime.sendMessage("bknnlbamapndemiekhkcnmdclnkijlhb",{
+                                tweetLink: 'http://www.walla.co.il',
+                                action: 'SayHello'
+                            },
+                            () => {
+                                console.log("Sent")
+                            })
                     });
+
+
                     $(extraButton).insertAfter(caret)
                 }
 
@@ -45,7 +55,4 @@ export default class Client {
         });
     }
 
-    showContextMenu(tweetId) {
-        alert(tweetId)
-    }
 }

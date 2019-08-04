@@ -9,9 +9,13 @@
     "icons": ["icon.png"],
     "default_icon": "icon.png"
   },
-"permissions": [
+  "background": {
+    "page": "src/background/main.html"
+  },
+  "permissions": [
     "tabs",
     "bookmarks",
+    "background",
     "https://twitter.com/*"
   ],
   "content_scripts": [ {
