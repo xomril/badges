@@ -97,10 +97,17 @@ export default class Client {
     }
 
     multiLike() {
-        let tweets = $('div[data-testid="tweet"], article[data-testid="tweetDetail"]');
-
-        tweets.map((index, tweet) => {
-            $($(tweet).find('div[data-testid="like"]')).trigger("click")
-        })
+        let urlScreenName = window.location.href.split("/status")[0].split("com/")[1];
+        console.log("selected user:" + urlScreenName)   
+        let tweets = $('div[data-testid="tweet"]');
+        for(var i=0;i<tweets.length;i++){
+           var tweet = $('div[data-testid="tweet"]')[i];
+           var screenName = $(tweet).find("a").attr("href").replace("/","");
+           console.log("tweet user: " + screenName);
+           console.log("is user:" + (screenName===urlScreenName))
+            if(screenName===urlScreenName){
+                 $(tweet).find('div[data-testid="like"]').click();
+            }
+           }
     }
 }
